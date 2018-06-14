@@ -1,2 +1,0 @@
-hello world!
-day:2018.06.14`
