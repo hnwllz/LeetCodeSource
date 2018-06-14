@@ -28,3 +28,18 @@ public class Solution {
             return strBuilder.ToString();
     }
 }
+
+ public int Reverse1[M C1(int x) {
+        int result = 0;
+        while(x != 0)
+              try{
+                checked{
+                    result = result * 10 + x%10;
+                    x = x/10;
+                }
+              }
+              catch(OverflowException ex){
+                  return 0;
+              }
+          return result;
+        }  
