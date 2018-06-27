@@ -1,0 +1,84 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int x) { val = x; }
+ * }
+ */
+/*
+判断一棵二叉树是否是镜像对称，可以转换为：判断这棵二叉树的左右子树是不是镜像相等 的问题。
+问题转化后，就和判断两颗二叉树是否相等类似了，只不过是相等换成了对称，不过解决思路还是一致的。
+
+迭代：判断两个子树的节点left和right相等并且left的左子树和right的右子树对称，left的右子树和right的左子树对称
+
+*/
+/*
+public class Solution {
+    public bool IsSymmetric(TreeNode root) {
+        if(root == null){
+            return true;
+        }
+       //判断左右子树是否镜像对称
+       return Symmetric(root.left,root.right);
+    }
+    
+    private bool Symmetric(TreeNode left,TreeNode right){
+        if(left == null && right == null){
+            return true;
+        }
+        
+        //一边为null一边不为null是不对称
+        if(left == null || right == null){
+            return false;
+        }
+        
+        //值相等并且左右子树互为镜像对称
+        return left.val == right.val 
+            && Symmetric(left.left,right.right) 
+            && Symmetric(left.right,right.left);
+    }
+}
+*/
+
+/*
+循环解决方法：
+维护一个栈，将二叉树的节点按照left.left,right.right,left.right,right.left的顺序压入栈中，后续两个两个弹出节点并进行比较。
+比较的方式和迭代是一样的。
+
+*/
+public class Solution {
+    public bool IsSymmetric(TreeNode root) {
+        if(root == null){
+            return true;
+        }
+        
+        Stack<TreeNode> stacks = new Stack<TreeNode>();
+        stacks.Push(root.left);
+        stacks.Push(root.right);
+        
+        TreeNode left,right;
+        while(stacks.Count > 0){
+            left = stacks.Pop();
+            right = stacks.Pop();
+            
+            if(left == null && right == null){
+                continue;
+            }
+            
+            if(left == null || 
+               right == null ||
+              left.val != right.val){
+                return false;
+            }
+            
+            stacks.Push(left.left);
+            stacks.Push(right.right);
+            stacks.Push(left.right);
+            stacks.Push(right.left);            
+        }
+        
+        return true;
+    }
+}
